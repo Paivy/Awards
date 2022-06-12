@@ -9,5 +9,5 @@ urlpatterns = [
     #UUID: universally unique identifiers
 
      path('',views.home, name="home"),
-     path('add_site',views.add_site,name="add_site"),
+    #  path('add_site',views.add_site,name="add_site"),
 ]
