@@ -10,12 +10,12 @@ class SignupForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-class PostForm(forms.ModelForm):
-    photo = ImageField(label='')
+# class PostForm(forms.ModelForm):
+#     photo = ImageField(label='')
 
-    class Meta:
-        model = Post
-        fields = ('photo', 'title', 'url', 'description', 'technologies',)
+#     class Meta:
+#         model = Post
+#         fields = ('photo', 'title', 'url', 'description', 'technologies',)
 
 
 class UpdateUserForm(forms.ModelForm):
@@ -25,3 +25,13 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email')
 
+class UpdateUserProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'location', 'profile_picture', 'bio', 'contact']
+
+
+class RatingsForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['design', 'usability', 'content']
