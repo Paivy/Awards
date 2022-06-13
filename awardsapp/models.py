@@ -1,92 +1,65 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-# from pyuploadcare.dj.models import ImageField
-import datetime as dt
 
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    profile_picture = models.ImageField(upload_to='images/', default='default.png')
-    bio = models.TextField(max_length=500, default="My Bio", blank=True)
-    name = models.CharField(blank=True, max_length=120)
-    location = models.CharField(max_length=60, blank=True)
-    contact = models.EmailField(max_length=100, blank=True)
-
-    def __str__(self):
-        return f'{self.user.username} Profile'
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
-
-
-class Post(models.Model):
-    title = models.CharField(max_length=155)
-    url = models.URLField(max_length=255)
-    description = models.TextField(max_length=255)
-    technologies = models.CharField(max_length=200, blank=True)
-    photo =models.ImageField(upload_to='pics/',blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
-    date = models.DateTimeField(auto_now_add=True, blank=True)
+# Create your models here.
+class Project(models.Model):
+    title = models.CharField(max_length=100)
+    details = models.TextField()
+    link = models.CharField(max_length=100)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    image = models.ImageField(upload_to='project_pics',blank=True)
+    user_project_id = models.IntegerField(default=0)
+    design = models.IntegerField(choices=list(zip(range(0, 11), range(0, 11))), default=0)
+    usability = models.IntegerField(choices=list(zip(range(0, 11), range(0, 11))), default=0)
+    content = models.IntegerField(choices=list(zip(range(0, 11), range(0, 11))), default=0)
+    vote_submissions = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
-    def delete_post(self):
+    class Meta:
+        ordering = ['-id']
+
+    def save_project(self):
+        self.save()
+
+    def delete_project(self):
         self.delete()
 
     @classmethod
-    def search_project(cls, title):
-        return cls.objects.filter(title__icontains=title).all()
+    def fetch_all_images(cls):
+        all_images = Project.objects.all()
+        return all_images
 
     @classmethod
-    def all_posts(cls):
-        return cls.objects.all()
-
-    def save_post(self):
-        self.save()
-
-
-
-
-class Rating(models.Model):
-    rating = (
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-        (6, '6'),
-        (7, '7'),
-        (8, '8'),
-        (9, '9'),
-        (10, '10'),
-    )
-
-    design = models.IntegerField(choices=rating, default=0, blank=True)
-    usability = models.IntegerField(choices=rating, blank=True)
-    content = models.IntegerField(choices=rating, blank=True)
-    score = models.FloatField(default=0, blank=True)
-    design_average = models.FloatField(default=0, blank=True)
-    usability_average = models.FloatField(default=0, blank=True)
-    content_average = models.FloatField(default=0, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='rater')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='ratings', null=True)
-
-    def save_rating(self):
-        self.save()
+    def search_project_by_title(cls,search_term):
+        project = cls.objects.filter(title__icontains=search_term)
+        return project
 
     @classmethod
-    def get_ratings(cls, id):
-        ratings = Rating.objects.filter(post_id=id).all()
-        return ratings
+    def get_single_project(cls, project):
+        project = cls.objects.get(id=project)
+        return project
+
+    class Meta:
+        ordering = ['-id']
+class Profile(models.Model):
+    profile_picture = models.ImageField(upload_to='prof_pics/',blank=True)
+    prof_user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    bio = models.TextField()
+    contact_info = models.CharField(max_length=200,blank=True)
+    profile_Id = models.IntegerField(default=0)
+    all_projects = models.ForeignKey('Project',on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return f'{self.post} Rating'
+        return self.bio
+
+    def save_profile(self):
+        self.save()
+
+    def delete_profile(self):
+        self.delete()
+
+    def update_bio(self,bio):
+        self.bio = bio
+        self.save()
