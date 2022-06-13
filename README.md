@@ -56,7 +56,7 @@ CREATE DATABASE <name that you want your database to be named>;
 3. HTML
 4. CSS
 5. Postgresql
-6. MDBootstrap
+6. Bootstrap
 7. Django Framework
 
 ## Contact
