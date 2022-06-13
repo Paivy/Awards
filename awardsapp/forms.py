@@ -1,37 +1,18 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Post, Profile, Rating
+from .models import Project,Profile
 
-class SignupForm(UserCreationForm):
-     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-
-     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
-
-# class PostForm(forms.ModelForm):
-#     photo = ImageField(label='')
-
-#     class Meta:
-#         model = Post
-#         fields = ('photo', 'title', 'url', 'description', 'technologies',)
-
-
-class UpdateUserForm(forms.ModelForm):
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-
+class ProjectForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email')
+        model = Project
+        exclude = ['user','user_project_id']
 
-class UpdateUserProfileForm(forms.ModelForm):
+
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'location', 'profile_picture', 'bio', 'contact']
+        exclude = ['prof_user','profile_Id']
 
-
-class RatingsForm(forms.ModelForm):
+class VoteForm(forms.ModelForm):
     class Meta:
-        model = Rating
-        fields = ['design', 'usability', 'content']
+        model = Project
+        fields = ('design','usability','content')
