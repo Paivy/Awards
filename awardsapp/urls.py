@@ -11,7 +11,8 @@ urlpatterns = [
      path('new_profile',views.new_profile,name = 'new_profile'),
      path('edit/profile',views.profile_edit,name = 'edit_profile'),
      path('search',views.search_project, name='search_results'),
-     path('project/review/(\d+)',views.project_review,name='project_review'),
+     path('project/review/<project_id>',views.project_review,name='project_review'),
+    #  '<int:project_id>/'
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

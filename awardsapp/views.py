@@ -81,7 +81,7 @@ def search_project(request):
 @login_required(login_url='/accounts/login/')
 def project_review(request,project_id):
     try:
-        single_project = Project.get_single_project(project_id)
+        single_project = Project.objects.get(id=project_id)
         average_score = round(((single_project.design + single_project.usability + single_project.content)/3),2)
         if request.method == 'POST':
             vote_form = VoteForm(request.POST)
