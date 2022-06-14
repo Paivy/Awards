@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
+from django.http import HttpResponse
 from .models import Project,Profile
 from .forms import ProjectForm,ProfileForm,VoteForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from .serializer import ProfileSerializer,ProjectSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProfileSerializer,ProjectSerializer
 
 # Create your views here.
 
@@ -109,3 +111,19 @@ def project_review(request,project_id):
         raise Http404()
     return render(request,'project_review.html',{"vote_form":vote_form,"single_project":single_project,"average_score":average_score})
 
+# @login_required(login_url='/accounts/login/')
+def log_out(request):
+    logout(request)
+    return HttpResponse('logged out successfully')
+
+class ProfileList(APIView):
+    def get(self,request,format=None):
+        complete_profile = Profile.objects.all()
+        serializers = ProfileSerializer(complete_profile, many=True)
+        return Response(serializers.data)
+
+class ProjectList(APIView):
+    def get(self,request,format=None):
+        projects = Project.objects.all()
+        serializers = ProjectSerializer(projects, many=True)
+        return Response(serializers.data)
