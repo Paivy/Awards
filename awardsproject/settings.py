@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'awardsapp',
-    'bootstrap4',
+    'bootstrap5',
     'rest_framework.authtoken',
     'rest_framework',
 ]
