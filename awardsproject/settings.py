@@ -71,6 +71,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'awardsapp',
     'bootstrap5',
     'rest_framework.authtoken',
@@ -177,3 +179,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'drogsjsfx',
+    'API_KEY': '448828146515286',
+    'API_SECRET': 'm_2DAQxsCDs3ocQYXuaCFXdlvSQ'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
