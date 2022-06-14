@@ -69,7 +69,7 @@ Copyright (c) 2022 Paivy Eshirera
 
 ### API ENDPOINTS
 ### Profile endpoint
-http://127.0.0.1:8000/api/profile/
+http://127.0.0.1:8040/api/profile/
 
 ### Project endpoint
-http://127.0.0.1:8000/api/projects/
+http://127.0.0.1:8040/api/projects/
