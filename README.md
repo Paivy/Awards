@@ -67,3 +67,9 @@ CREATE DATABASE <name that you want your database to be named>;
 ### License  & Copyright information
 Copyright (c) 2022 Paivy Eshirera
 
+### API ENDPOINTS
+### Profile endpoint
+http://127.0.0.1:8000/api/profile/
+
+### Project endpoint
+http://127.0.0.1:8000/api/projects/
